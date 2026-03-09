@@ -1,0 +1,17 @@
+{
+  "name": "poker-coach",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "test:engine": "npm run test --workspace=@poker-coach/engine",
+    "dev": "npm run dev --workspace=@poker-coach/client",
+    "build": "npm run build --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
