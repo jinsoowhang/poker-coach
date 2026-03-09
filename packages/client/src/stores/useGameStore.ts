@@ -16,6 +16,7 @@ import {
   getActionDelay,
 } from '@poker-coach/engine';
 import { saveHand } from '../lib/persistence';
+import { computeAndSaveSnapshot } from '../lib/skill-calculator';
 import { usePlayerStore } from './usePlayerStore';
 import { useSessionStore } from './useSessionStore';
 
@@ -207,6 +208,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     heroPlayer.seatIndex ?? 0,
                   );
                   useSessionStore.getState().incrementHands();
+
+                  // Compute skill snapshot every 10 hands
+                  const { handsPlayed } = useSessionStore.getState();
+                  if (handsPlayed > 0 && handsPlayed % 10 === 0) {
+                    computeAndSaveSnapshot(pid); // fire and forget
+                  }
                 }
               }
             }
