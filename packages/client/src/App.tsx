@@ -11,8 +11,20 @@ export default function App() {
     usePlayerStore.getState().initialize();
   }, []);
 
+  // Handle GitHub Pages SPA redirect
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get('redirect');
+    if (redirect) {
+      params.delete('redirect');
+      const remainingParams = params.toString();
+      const newUrl = redirect + (remainingParams ? '?' + remainingParams : '');
+      window.history.replaceState(null, '', newUrl);
+    }
+  }, []);
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/poker-coach">
       <div className="min-h-screen bg-gray-950">
         <NavBar />
         <Routes>
