@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { usePlayerStore } from '../stores/usePlayerStore';
 
 const links = [
   { to: '/', label: 'Play' },
@@ -8,6 +9,7 @@ const links = [
 
 export default function NavBar() {
   const { pathname } = useLocation();
+  const displayName = usePlayerStore((s) => s.displayName);
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-gray-950 border-b border-emerald-900/50">
@@ -29,7 +31,7 @@ export default function NavBar() {
         ))}
       </div>
 
-      <span className="text-sm text-gray-400">Player</span>
+      <span className="text-sm text-gray-400">{displayName ?? 'Player'}</span>
     </nav>
   );
 }
