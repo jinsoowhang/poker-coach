@@ -15,5 +15,8 @@
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest"
+  },
+  "dependencies": {
+    "pokersolver": "^2.1.4"
   }
 }
