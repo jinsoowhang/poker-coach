@@ -38,6 +38,9 @@ interface GameStore {
   eventLog: GameEvent[];
   winners: HandWinner[];
 
+  // AI thinking
+  thinkingPlayerId: string | null;
+
   // Game running
   gameLoop: GameLoop | null;
   isRunning: boolean;
@@ -101,6 +104,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   lastHandSummary: null,
   eventLog: [],
   winners: [],
+
+  thinkingPlayerId: null,
 
   gameLoop: null,
   isRunning: false,
@@ -205,11 +210,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
 
         // AI action with variable delay based on action type and personality
+        set({ thinkingPlayerId: playerId });
         const aiIndex = parseInt(playerId.split('-')[1]);
         const personality = AI_PERSONALITIES[aiIndex];
         const aiAction = await aiProviders[aiIndex](playerId, validActions, gameState);
         const delay = getActionDelay(aiAction.type, personality);
         await new Promise(r => setTimeout(r, delay));
+        set({ thinkingPlayerId: null });
         return aiAction;
       },
     });

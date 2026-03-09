@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import type { Player } from '@poker-coach/engine';
 import { CardComponent } from './CardComponent';
+import { useGameStore } from '../stores/useGameStore';
 
 interface PlayerSeatProps {
   player: Player;
@@ -11,6 +13,23 @@ interface PlayerSeatProps {
 
 export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards }: PlayerSeatProps) {
   const canSeeCards = isHuman || showCards;
+  const thinkingPlayerId = useGameStore(s => s.thinkingPlayerId);
+  const awaitingInput = useGameStore(s => s.awaitingInput);
+  const isThinking = thinkingPlayerId === player.id;
+  const showTimer = isHuman && awaitingInput;
+
+  // Human turn timer
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    if (!showTimer) {
+      setElapsed(0);
+      return;
+    }
+    const interval = setInterval(() => setElapsed(t => t + 1), 1000);
+    return () => clearInterval(interval);
+  }, [showTimer]);
+
+  const formatTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
   return (
     <div className={`flex flex-col items-center gap-1 transition-all duration-300 ${
@@ -94,6 +113,22 @@ export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards
           }}
         >
           All In
+        </div>
+      )}
+
+      {/* AI thinking indicator */}
+      {isThinking && (
+        <div className="flex items-center gap-1 text-amber-400 text-xs">
+          <span className="animate-pulse">●</span>
+          <span className="animate-pulse" style={{ animationDelay: '0.2s' }}>●</span>
+          <span className="animate-pulse" style={{ animationDelay: '0.4s' }}>●</span>
+        </div>
+      )}
+
+      {/* Human turn timer */}
+      {showTimer && (
+        <div className="text-xs font-mono" style={{ color: '#4b5563' }}>
+          {formatTime(elapsed)}
         </div>
       )}
     </div>
