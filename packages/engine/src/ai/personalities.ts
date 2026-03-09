@@ -10,6 +10,7 @@ export const TAG: AiPersonality = {
   vpip: 0.22,          // plays ~22% of hands
   aggression: 0.75,    // heavily prefers raising over calling
   bluffFrequency: 0.15,
+  speedModifier: 1.0,  // normal speed
 };
 
 /**
@@ -22,6 +23,7 @@ export const LP: AiPersonality = {
   vpip: 0.55,          // plays ~55% of hands
   aggression: 0.2,     // mostly calls
   bluffFrequency: 0.05,
+  speedModifier: 1.1,  // slightly slow
 };
 
 /**
@@ -34,6 +36,7 @@ export const TP: AiPersonality = {
   vpip: 0.18,
   aggression: 0.15,
   bluffFrequency: 0.02,
+  speedModifier: 1.3,  // slow/deliberate
 };
 
 /**
@@ -46,6 +49,7 @@ export const LAG: AiPersonality = {
   vpip: 0.50,
   aggression: 0.70,
   bluffFrequency: 0.30,
+  speedModifier: 0.7,  // fast/impulsive
 };
 
 export const ALL_PERSONALITIES: AiPersonality[] = [TAG, LP, TP, LAG];

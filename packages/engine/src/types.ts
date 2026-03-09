@@ -118,6 +118,7 @@ export interface AiPersonality {
   vpip: number;         // voluntarily put in pot % (hand range width)
   aggression: number;   // 0-1 scale, tendency to raise vs call
   bluffFrequency: number; // 0-1 scale
+  speedModifier: number;  // 0.7 = fast, 1.0 = normal, 1.3 = slow
 }
 
 export interface AiDecision {

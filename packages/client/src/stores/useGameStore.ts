@@ -13,6 +13,7 @@ import {
   LP,
   LAG,
   createAiActionProvider,
+  getActionDelay,
 } from '@poker-coach/engine';
 
 interface GameStore {
@@ -203,10 +204,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
           });
         }
 
-        // AI action with small delay for readability
+        // AI action with variable delay based on action type and personality
         const aiIndex = parseInt(playerId.split('-')[1]);
-        await new Promise(r => setTimeout(r, 400 + Math.random() * 400));
-        return aiProviders[aiIndex](playerId, validActions, gameState);
+        const personality = AI_PERSONALITIES[aiIndex];
+        const aiAction = await aiProviders[aiIndex](playerId, validActions, gameState);
+        const delay = getActionDelay(aiAction.type, personality);
+        await new Promise(r => setTimeout(r, delay));
+        return aiAction;
       },
     });
 
