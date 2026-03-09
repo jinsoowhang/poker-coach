@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+/* ── Card dealing animation ── */
+.card-deal {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s ease;
+}
+.card-deal-start {
+  transform: translate(var(--deck-x, 120px), var(--deck-y, -80px)) scale(0.5);
+  opacity: 0;
+}
+.card-deal-end {
+  transform: translate(0, 0) scale(1);
+  opacity: 1;
+}
+
+/* ── Card flip (3D) ── */
+.card-flip {
+  position: relative;
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+}
+.card-face-down {
+  transform: rotateY(180deg);
+}
+.card-face-up {
+  transform: rotateY(0deg);
+}
+
+.card-front,
+.card-back {
+  backface-visibility: hidden;
+}
+.card-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* ── Winner glow ── */
+@keyframes winner-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(234, 179, 8, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.8); }
+}
+.winner-card {
+  animation: winner-glow 1.5s ease-in-out 3;
+  border-radius: 0.5rem;
+}
+
+/* ── Chip slide ── */
+.chip-to-pot {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s ease;
+}
+.chip-to-pot-start {
+  opacity: 1;
+}
+.chip-to-pot-end {
+  transform: translate(var(--pot-x, 0px), var(--pot-y, 0px));
+  opacity: 0;
+}
+
+/* ── Loser fade ── */
+.loser-fade {
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Player } from '@poker-coach/engine';
-import { CardComponent } from './CardComponent';
+import { AnimatedCard } from './AnimatedCard';
 import { useGameStore } from '../stores/useGameStore';
 
 interface PlayerSeatProps {
@@ -9,9 +9,11 @@ interface PlayerSeatProps {
   isCurrentTurn: boolean;
   isHuman: boolean;
   showCards: boolean;
+  seatIndex?: number;
+  isWinner?: boolean;
 }
 
-export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards }: PlayerSeatProps) {
+export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards, seatIndex = 0, isWinner = false }: PlayerSeatProps) {
   const canSeeCards = isHuman || showCards;
   const thinkingPlayerId = useGameStore(s => s.thinkingPlayerId);
   const awaitingInput = useGameStore(s => s.awaitingInput);
@@ -39,8 +41,20 @@ export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards
       <div className="flex gap-1">
         {player.holeCards ? (
           <>
-            <CardComponent card={canSeeCards ? player.holeCards[0] : null} faceDown={!canSeeCards} size="sm" />
-            <CardComponent card={canSeeCards ? player.holeCards[1] : null} faceDown={!canSeeCards} size="sm" />
+            <AnimatedCard
+              card={player.holeCards[0]}
+              faceUp={canSeeCards}
+              winner={isWinner && !player.folded}
+              dealDelay={seatIndex * 100}
+              size="sm"
+            />
+            <AnimatedCard
+              card={player.holeCards[1]}
+              faceUp={canSeeCards}
+              winner={isWinner && !player.folded}
+              dealDelay={seatIndex * 100 + 50}
+              size="sm"
+            />
           </>
         ) : (
           <div className="w-10 h-14" /> /* empty placeholder */

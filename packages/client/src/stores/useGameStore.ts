@@ -20,6 +20,8 @@ import { computeAndSaveSnapshot } from '../lib/skill-calculator';
 import { usePlayerStore } from './usePlayerStore';
 import { useSessionStore } from './useSessionStore';
 
+export type AnimationPhase = 'idle' | 'dealing' | 'community' | 'showdown';
+
 interface GameStore {
   // Game state
   players: Player[];
@@ -31,6 +33,9 @@ interface GameStore {
   handNumber: number;
   isHandOver: boolean;
   showdown: boolean;
+
+  // Animation
+  animationPhase: AnimationPhase;
 
   // Human input
   awaitingInput: boolean;
@@ -111,6 +116,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   thinkingPlayerId: null,
 
+  animationPhase: 'idle' as AnimationPhase,
+
   gameLoop: null,
   isRunning: false,
 
@@ -137,7 +144,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
               showdown: false,
               winners: [],
               lastHandSummary: null,
+              animationPhase: 'dealing',
             });
+            // Reset to idle after deal animations complete (~1s for 4 players)
+            setTimeout(() => {
+              if (get().animationPhase === 'dealing') {
+                set({ animationPhase: 'idle' });
+              }
+            }, 1000);
             break;
 
           case 'CARDS_DEALT':
@@ -151,7 +165,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
             break;
 
           case 'COMMUNITY_CARDS':
-            set({ communityCards: event.cards });
+            set({ communityCards: event.cards, animationPhase: 'community' });
+            // Reset after community card animations (~500ms)
+            setTimeout(() => {
+              if (get().animationPhase === 'community') {
+                set({ animationPhase: 'idle' });
+              }
+            }, 600);
             break;
 
           case 'STREET_CHANGE':
@@ -171,7 +191,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
             break;
 
           case 'SHOWDOWN':
-            set({ showdown: true, winners: event.winners });
+            set({ showdown: true, winners: event.winners, animationPhase: 'showdown' });
+            // Reset after showdown animations (~2s for flip + glow)
+            setTimeout(() => {
+              if (get().animationPhase === 'showdown') {
+                set({ animationPhase: 'idle' });
+              }
+            }, 2000);
             break;
 
           case 'HAND_END':
