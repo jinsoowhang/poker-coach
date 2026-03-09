@@ -27,7 +27,7 @@ export default function ChipTrendChart({ data }: Props) {
             <Tooltip
               contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: 8, color: '#e5e7eb' }}
               labelFormatter={(v) => `Hand #${v}`}
-              formatter={(v: number) => [v.toLocaleString(), 'Chips']}
+              formatter={(v) => [Number(v).toLocaleString(), 'Chips']}
             />
             <Line
               type="monotone"
