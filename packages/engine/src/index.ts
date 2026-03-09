@@ -15,3 +15,5 @@ export { GameLoop } from './game-loop.js';
 export type { ActionProvider, GameLoopConfig } from './game-loop.js';
 export { TAG, LP, TP, LAG, ALL_PERSONALITIES } from './ai/personalities.js';
 export { estimatePreflopStrength, estimatePostflopStrength, makeDecision, createAiActionProvider } from './ai/decision-engine.js';
+export { calculatePotOdds, countOuts, totalUniqueOuts } from './odds-calculator.js';
+export type { PotOdds, OutInfo } from './odds-calculator.js';
