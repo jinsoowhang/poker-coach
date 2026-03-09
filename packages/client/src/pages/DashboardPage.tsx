@@ -7,6 +7,7 @@ import SkillTrendChart from '../components/dashboard/SkillTrendChart';
 import SkillRadar from '../components/dashboard/SkillRadar';
 import CoachingInsights from '../components/dashboard/CoachingInsights';
 import RecentHandsTable from '../components/dashboard/RecentHandsTable';
+import MilestoneBadges from '../components/dashboard/MilestoneBadges';
 
 export default function DashboardPage() {
   const playerId = usePlayerStore((s) => s.playerId);
@@ -91,6 +92,14 @@ export default function DashboardPage() {
             color={totalProfit >= 0 ? 'emerald' : 'red'}
           />
         </div>
+
+        {/* Milestone Badges */}
+        <MilestoneBadges
+          handsPlayed={handsPlayed}
+          skillScore={skillScore}
+          vpip={vpip}
+          winRate={winRate}
+        />
 
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
