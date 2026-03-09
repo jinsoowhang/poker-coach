@@ -15,6 +15,9 @@ import {
   createAiActionProvider,
   getActionDelay,
 } from '@poker-coach/engine';
+import { saveHand } from '../lib/persistence';
+import { usePlayerStore } from './usePlayerStore';
+import { useSessionStore } from './useSessionStore';
 
 interface GameStore {
   // Game state
@@ -185,6 +188,28 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 };
               }),
             });
+
+            // Persist hand to Supabase (fire-and-forget)
+            {
+              const pid = usePlayerStore.getState().playerId;
+              const sid = useSessionStore.getState().sessionId;
+              if (pid && sid) {
+                const heroPlayer = state.players.find(p => p.isHuman);
+                if (heroPlayer) {
+                  saveHand(
+                    pid,
+                    sid,
+                    event.summary,
+                    get().eventLog,
+                    heroPlayer.id,
+                    state.dealerIndex,
+                    state.players.length,
+                    heroPlayer.seatIndex ?? 0,
+                  );
+                  useSessionStore.getState().incrementHands();
+                }
+              }
+            }
             break;
         }
       },
@@ -222,6 +247,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
 
     set({ gameLoop: loop, players, isRunning: true, handNumber: 0, eventLog: [] });
+
+    // Start a persistence session (fire-and-forget)
+    const playerId = usePlayerStore.getState().playerId;
+    if (playerId) {
+      useSessionStore.getState().startSession(playerId, 1000);
+    }
 
     // Auto-start first hand
     get().playNextHand();
