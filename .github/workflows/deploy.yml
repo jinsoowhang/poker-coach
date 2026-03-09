@@ -28,8 +28,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Type check
-        run: npx tsc --noEmit --project packages/engine/tsconfig.json
+      - name: Build engine
+        run: npm run build --workspace=@poker-coach/engine
 
       - name: Run engine tests
         run: npm run test:engine
