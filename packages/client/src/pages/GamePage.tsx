@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import { useGameStore } from '../stores/useGameStore';
+import { useSettingsStore } from '../stores/useSettingsStore';
 import { PokerTable } from '../components/PokerTable';
 import { BettingControls } from '../components/BettingControls';
+import { PotOddsDisplay } from '../components/PotOddsDisplay';
+import { HandProbabilityOverlay } from '../components/HandProbabilityOverlay';
+import { HandStrengthGauge } from '../components/HandStrengthGauge';
+import { PostHandModal } from '../components/PostHandModal';
 
 export function GamePage() {
   const {
@@ -14,9 +20,20 @@ export function GamePage() {
     isHandOver,
     showdown,
     lastHandSummary,
+    validActions,
+    eventLog,
     startGame,
     playNextHand,
   } = useGameStore();
+
+  const { showOverlay, showPostHandModal, toggleOverlay, togglePostHandModal } = useSettingsStore();
+  const [modalDismissed, setModalDismissed] = useState(false);
+
+  // Reset modal dismissed state when a new hand ends
+  const handleNextHand = () => {
+    setModalDismissed(false);
+    playNextHand();
+  };
 
   if (!isRunning) {
     return (
@@ -53,6 +70,8 @@ export function GamePage() {
   }
 
   const humanPlayer = players.find(p => p.isHuman);
+  const callAction = validActions.find(a => a.type === 'call');
+  const callAmount = callAction?.minAmount ?? 0;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -67,10 +86,7 @@ export function GamePage() {
         <div className="flex items-center gap-4">
           <h1
             className="text-xl font-bold"
-            style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-              color: '#fbbf24',
-            }}
+            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#fbbf24' }}
           >
             Poker Coach
           </h1>
@@ -79,8 +95,34 @@ export function GamePage() {
           </span>
         </div>
 
-        <div className="flex items-center gap-6 text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
-          <span style={{ color: '#a7f3d0' }}>
+        <div className="flex items-center gap-4">
+          {/* Toggle buttons */}
+          <button
+            onClick={toggleOverlay}
+            className="text-xs px-2.5 py-1 rounded transition-all cursor-pointer"
+            style={{
+              background: showOverlay ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.05)',
+              color: showOverlay ? '#4ade80' : '#6b7280',
+              border: `1px solid ${showOverlay ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.1)'}`,
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            Coach {showOverlay ? 'ON' : 'OFF'}
+          </button>
+          <button
+            onClick={togglePostHandModal}
+            className="text-xs px-2.5 py-1 rounded transition-all cursor-pointer"
+            style={{
+              background: showPostHandModal ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.05)',
+              color: showPostHandModal ? '#60a5fa' : '#6b7280',
+              border: `1px solid ${showPostHandModal ? 'rgba(59,130,246,0.3)' : 'rgba(255,255,255,0.1)'}`,
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            Review {showPostHandModal ? 'ON' : 'OFF'}
+          </button>
+
+          <span className="text-sm tabular-nums" style={{ color: '#a7f3d0', fontFamily: "'DM Mono', monospace" }}>
             Chips: ${humanPlayer?.chips.toLocaleString() ?? 0}
           </span>
         </div>
@@ -98,6 +140,29 @@ export function GamePage() {
         />
       </div>
 
+      {/* Educational overlay panel */}
+      {showOverlay && !isHandOver && humanPlayer?.holeCards && (
+        <div
+          className="px-6 py-3 flex flex-col gap-2"
+          style={{
+            background: 'rgba(0,0,0,0.4)',
+            borderTop: '1px solid rgba(255,255,255,0.05)',
+          }}
+        >
+          <div className="flex items-center gap-6 flex-wrap">
+            <HandStrengthGauge
+              holeCards={humanPlayer.holeCards}
+              communityCards={communityCards}
+            />
+            <PotOddsDisplay potSize={pot} callAmount={callAmount} />
+          </div>
+          <HandProbabilityOverlay
+            holeCards={humanPlayer.holeCards}
+            communityCards={communityCards}
+          />
+        </div>
+      )}
+
       {/* Controls */}
       <div
         className="px-6 py-2"
@@ -108,19 +173,20 @@ export function GamePage() {
       >
         {isHandOver ? (
           <div className="flex flex-col items-center gap-3 py-3">
-            {/* Hand result */}
             {lastHandSummary && (
               <div className="text-center">
                 {lastHandSummary.winners.map((w, i) => (
                   <div key={i} className="text-sm" style={{ color: '#fbbf24', fontFamily: "'DM Sans', sans-serif" }}>
-                    <span className="font-bold">{players.find(p => p.id === w.playerId)?.name ?? w.playerId}</span>
+                    <span className="font-bold">
+                      {players.find(p => p.id === w.playerId)?.name ?? w.playerId}
+                    </span>
                     {' wins $'}{w.amount} — {w.handName}
                   </div>
                 ))}
               </div>
             )}
             <button
-              onClick={playNextHand}
+              onClick={handleNextHand}
               className="px-6 py-2 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
               style={{
                 background: 'linear-gradient(135deg, #065f46 0%, #047857 100%)',
@@ -137,6 +203,15 @@ export function GamePage() {
           <BettingControls />
         )}
       </div>
+
+      {/* Post-hand review modal */}
+      {showPostHandModal && isHandOver && lastHandSummary && !modalDismissed && (
+        <PostHandModal
+          summary={lastHandSummary}
+          events={eventLog}
+          onClose={() => setModalDismissed(true)}
+        />
+      )}
     </div>
   );
 }
