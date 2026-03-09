@@ -12,7 +12,8 @@ export interface EvaluatedHand {
   description: string; // e.g. "Ace High Flush"
   cards: Card[];       // the 5 best cards used
   /** Internal pokersolver hand for comparison. */
-  _solvedHand: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _solvedHand: any;
 }
 
 /**
