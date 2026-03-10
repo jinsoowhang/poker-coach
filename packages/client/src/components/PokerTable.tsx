@@ -12,6 +12,7 @@ interface PokerTableProps {
   dealerIndex: number;
   currentPlayerIndex: number;
   showdown: boolean;
+  isHandOver: boolean;
 }
 
 /**
@@ -64,6 +65,7 @@ export function PokerTable({
   dealerIndex,
   currentPlayerIndex,
   showdown,
+  isHandOver,
 }: PokerTableProps) {
   const positions = SEAT_POSITIONS[players.length] ?? SEAT_POSITIONS[4];
   const winners = useGameStore(s => s.winners);
@@ -210,7 +212,7 @@ export function PokerTable({
             isDealer={i === dealerIndex}
             isCurrentTurn={i === currentPlayerIndex && !player.folded && !player.allIn}
             isHuman={player.isHuman}
-            showCards={showdown}
+            showCards={showdown || isHandOver}
             seatIndex={i}
             isWinner={winnerIds.has(player.id)}
           />
