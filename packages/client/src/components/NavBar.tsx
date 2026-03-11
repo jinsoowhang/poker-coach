@@ -2,7 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { usePlayerStore } from '../stores/usePlayerStore';
 
 const links = [
-  { to: '/', label: 'Play' },
+  { to: '/', label: 'Home' },
+  { to: '/play', label: 'Play' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/leaderboard', label: 'Leaderboard' },
 ];
