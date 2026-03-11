@@ -1,9 +1,23 @@
 import { useState, useMemo } from 'react';
-import type { ValidAction } from '@poker-coach/engine';
+import type { ValidAction, PlayerAction } from '@poker-coach/engine';
 import { useGameStore } from '../stores/useGameStore';
 
-export function BettingControls() {
-  const { awaitingInput, validActions, submitAction } = useGameStore();
+interface BettingControlsProps {
+  awaitingInput?: boolean;
+  validActions?: ValidAction[];
+  onSubmitAction?: (action: PlayerAction) => void;
+}
+
+export function BettingControls({ awaitingInput: propAwaiting, validActions: propValidActions, onSubmitAction }: BettingControlsProps = {}) {
+  // Fall back to useGameStore if no props provided (single-player backward compat)
+  const storeAwaiting = useGameStore(s => s.awaitingInput);
+  const storeValidActions = useGameStore(s => s.validActions);
+  const storeSubmit = useGameStore(s => s.submitAction);
+
+  const awaitingInput = propAwaiting ?? storeAwaiting;
+  const validActions = propValidActions ?? storeValidActions;
+  const submitAction = onSubmitAction ?? storeSubmit;
+
   const [raiseAmount, setRaiseAmount] = useState(0);
 
   const actions = useMemo(() => {

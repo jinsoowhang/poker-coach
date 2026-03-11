@@ -11,12 +11,16 @@ interface PlayerSeatProps {
   showCards: boolean;
   seatIndex?: number;
   isWinner?: boolean;
+  thinkingPlayerId?: string | null;
+  awaitingInput?: boolean;
 }
 
-export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards, seatIndex = 0, isWinner = false }: PlayerSeatProps) {
+export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards, seatIndex = 0, isWinner = false, thinkingPlayerId: propThinkingPlayerId, awaitingInput: propAwaitingInput }: PlayerSeatProps) {
   const canSeeCards = isHuman || showCards;
-  const thinkingPlayerId = useGameStore(s => s.thinkingPlayerId);
-  const awaitingInput = useGameStore(s => s.awaitingInput);
+  const storeThinkingPlayerId = useGameStore(s => s.thinkingPlayerId);
+  const storeAwaitingInput = useGameStore(s => s.awaitingInput);
+  const thinkingPlayerId = propThinkingPlayerId !== undefined ? propThinkingPlayerId : storeThinkingPlayerId;
+  const awaitingInput = propAwaitingInput !== undefined ? propAwaitingInput : storeAwaitingInput;
   const isThinking = thinkingPlayerId === player.id;
   const showTimer = isHuman && awaitingInput;
 
