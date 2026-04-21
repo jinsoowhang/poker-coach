@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import type { Card } from '@poker-coach/engine';
 import { CardComponent } from './CardComponent';
 
@@ -15,6 +15,11 @@ interface AnimatedCardProps {
  * - Starts off-screen (at a "deck" position) and slides into place.
  * - Flips from face-down to face-up when `faceUp` transitions to true.
  * - Pulses a gold glow when `winner` is true.
+ *
+ * NOTE: we intentionally re-run the deal animation whenever `card` changes
+ * reference. A ref-based guard would skip the re-deal under StrictMode's
+ * double-fire (cleanup cancels the timer, second run sees the ref already
+ * matches) — which left cards stuck at opacity 0 in Training mode.
  */
 export function AnimatedCard({
   card,
@@ -25,29 +30,18 @@ export function AnimatedCard({
 }: AnimatedCardProps) {
   const [dealt, setDealt] = useState(false);
   const [flipped, setFlipped] = useState(false);
-  const prevCardRef = useRef<Card | null>(null);
 
-  // Deal animation: after dealDelay, transition from deck position to final position
+  // Deal animation: reset on every card/dealDelay change, then schedule.
   useEffect(() => {
-    if (!card) {
-      setDealt(false);
-      setFlipped(false);
-      prevCardRef.current = null;
-      return;
-    }
+    setDealt(false);
+    setFlipped(false);
+    if (!card) return;
 
-    // New card detected — reset and re-deal
-    if (card !== prevCardRef.current) {
-      setDealt(false);
-      setFlipped(false);
-      prevCardRef.current = card;
+    const dealTimer = setTimeout(() => {
+      setDealt(true);
+    }, dealDelay);
 
-      const dealTimer = setTimeout(() => {
-        setDealt(true);
-      }, dealDelay);
-
-      return () => clearTimeout(dealTimer);
-    }
+    return () => clearTimeout(dealTimer);
   }, [card, dealDelay]);
 
   // Flip animation: after card has arrived (dealt), flip if faceUp requested
