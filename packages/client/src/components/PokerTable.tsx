@@ -54,6 +54,41 @@ const SEAT_POSITIONS: Record<number, string[]> = {
     'top-8 right-8',
     'bottom-12 right-4',
   ],
+  // For 7+ handed layouts, "shoulder" positions (upper-left and upper-right of the
+  // oval, away from the exact top) must be lifted above the container (negative top)
+  // because the oval felt curves down sharply at those x positions — otherwise the
+  // seat content lands on the green felt instead of on the dark border. The center
+  // top-of-oval is the narrowest part vertically, so seats there can stay at top-2.
+  7: [
+    'bottom-2 left-1/2 -translate-x-1/2',               // 0: bottom-center (hero)
+    'bottom-12 left-4',                                  // 1: bottom-left
+    'top-8 left-8',                                      // 2: top-left corner
+    '-top-10 left-[35%] -translate-x-1/2',               // 3: top shoulder left
+    '-top-10 right-[35%] translate-x-1/2',               // 4: top shoulder right
+    'top-8 right-8',                                     // 5: top-right corner
+    'bottom-12 right-4',                                 // 6: bottom-right
+  ],
+  8: [
+    'bottom-2 left-1/2 -translate-x-1/2',               // 0: bottom-center (hero)
+    'bottom-10 left-4',                                  // 1: bottom-left
+    'top-1/2 -translate-y-1/2 left-2',                   // 2: middle-left
+    'top-8 left-8',                                      // 3: top-left corner
+    'top-2 left-1/2 -translate-x-1/2',                   // 4: top-center
+    'top-8 right-8',                                     // 5: top-right corner
+    'top-1/2 -translate-y-1/2 right-2',                  // 6: middle-right
+    'bottom-10 right-4',                                 // 7: bottom-right
+  ],
+  9: [
+    'bottom-2 left-1/2 -translate-x-1/2',               // 0: bottom-center (hero)
+    'bottom-10 left-4',                                  // 1: bottom-left
+    'top-1/2 -translate-y-1/2 left-2',                   // 2: middle-left
+    'top-8 left-8',                                      // 3: top-left corner
+    '-top-10 left-[35%] -translate-x-1/2',               // 4: top shoulder left
+    '-top-10 right-[35%] translate-x-1/2',               // 5: top shoulder right
+    'top-8 right-8',                                     // 6: top-right corner
+    'top-1/2 -translate-y-1/2 right-2',                  // 7: middle-right
+    'bottom-10 right-4',                                 // 8: bottom-right
+  ],
 };
 
 /** Chip animation element sliding from player to pot */
