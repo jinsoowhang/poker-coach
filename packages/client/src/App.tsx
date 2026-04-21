@@ -7,6 +7,10 @@ import { WaitingRoomPage } from './pages/WaitingRoomPage';
 import { MultiplayerGamePage } from './pages/MultiplayerGamePage';
 import DashboardPage from './pages/DashboardPage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import { TrainingPage } from './pages/TrainingPage';
+import { ScenarioPage } from './pages/ScenarioPage';
+import { DailyHandPage } from './pages/DailyHandPage';
+import { ReviewPage } from './pages/ReviewPage';
 import { usePlayerStore } from './stores/usePlayerStore';
 
 export default function App() {
@@ -35,6 +39,10 @@ export default function App() {
           <Route path="/play" element={<GamePage />} />
           <Route path="/room/:code" element={<WaitingRoomPage />} />
           <Route path="/room/:code/play" element={<MultiplayerGamePage />} />
+          <Route path="/train" element={<TrainingPage />} />
+          <Route path="/train/daily" element={<DailyHandPage />} />
+          <Route path="/train/review" element={<ReviewPage />} />
+          <Route path="/train/:scenarioId" element={<ScenarioPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
         </Routes>

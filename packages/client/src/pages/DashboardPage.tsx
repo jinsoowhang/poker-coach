@@ -8,10 +8,12 @@ import SkillRadar from '../components/dashboard/SkillRadar';
 import CoachingInsights from '../components/dashboard/CoachingInsights';
 import RecentHandsTable from '../components/dashboard/RecentHandsTable';
 import MilestoneBadges from '../components/dashboard/MilestoneBadges';
+import ScenarioStatsCard from '../components/dashboard/ScenarioStatsCard';
+import CalibrationCard from '../components/dashboard/CalibrationCard';
 
 export default function DashboardPage() {
   const playerId = usePlayerStore((s) => s.playerId);
-  const { leaderboard, recentHands, skillHistory, chipHistory, loading, loadDashboard, loadLeaderboard } =
+  const { leaderboard, recentHands, skillHistory, chipHistory, scenarioStats, loading, loadDashboard, loadLeaderboard } =
     useStatsStore();
 
   useEffect(() => {
@@ -51,15 +53,15 @@ export default function DashboardPage() {
   const avgProfit = myStats?.avg_profit ?? 0;
   const totalProfit = Math.round(avgProfit * handsPlayed);
 
-  if (handsPlayed === 0 && recentHands.length === 0) {
+  if (handsPlayed === 0 && recentHands.length === 0 && scenarioStats.total === 0) {
     return (
       <div className="min-h-screen bg-gray-950 text-gray-100 p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-display text-amber-400 mb-8">Dashboard</h1>
           <div className="bg-gray-900 rounded-xl border border-gray-800 p-12 text-center">
-            <p className="text-gray-400 text-lg mb-2">No hands played yet</p>
+            <p className="text-gray-400 text-lg mb-2">No activity yet</p>
             <p className="text-gray-600 text-sm">
-              Play some poker to see your stats, charts, and coaching insights here.
+              Play some poker or drill training scenarios to see your stats here.
             </p>
           </div>
         </div>
@@ -116,6 +118,12 @@ export default function DashboardPage() {
             showdownWinPct={showdownWinPct}
           />
           <CoachingInsights vpip={vpip} aggression={aggression} winRate={winRate} />
+        </div>
+
+        {/* Training */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <ScenarioStatsCard stats={scenarioStats} />
+          <CalibrationCard stats={scenarioStats} />
         </div>
 
         {/* Recent Hands */}

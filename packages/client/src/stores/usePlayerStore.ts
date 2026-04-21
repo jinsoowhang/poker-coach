@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
+import { todayISO } from '../lib/streak';
 
 function generateDisplayName(): string {
   const adjectives = ['Lucky', 'Bold', 'Sharp', 'Cool', 'Sly', 'Swift', 'Keen', 'Wise'];
@@ -14,13 +15,24 @@ interface PlayerStore {
   playerId: string | null;
   displayName: string | null;
   initialized: boolean;
+
+  currentStreak: number;
+  longestStreak: number;
+  dailyHandCompletedToday: boolean;
+
   initialize: () => Promise<void>;
+  refreshStreak: () => Promise<void>;
+  setStreak: (next: { currentStreak: number; longestStreak: number; dailyHandCompletedToday: boolean }) => void;
 }
 
 export const usePlayerStore = create<PlayerStore>((set, get) => ({
   playerId: null,
   displayName: null,
   initialized: false,
+
+  currentStreak: 0,
+  longestStreak: 0,
+  dailyHandCompletedToday: false,
 
   initialize: async () => {
     if (get().initialized) return;
@@ -30,6 +42,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
     if (storedId && storedName) {
       set({ playerId: storedId, displayName: storedName, initialized: true });
+      await get().refreshStreak();
       return;
     }
 
@@ -46,6 +59,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         localStorage.setItem('poker-coach-player-id', data.id);
         localStorage.setItem('poker-coach-display-name', displayName);
         set({ playerId: data.id, displayName, initialized: true });
+        await get().refreshStreak();
         return;
       }
     }
@@ -56,4 +70,25 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     localStorage.setItem('poker-coach-display-name', displayName);
     set({ playerId: localId, displayName, initialized: true });
   },
+
+  refreshStreak: async () => {
+    const { playerId } = get();
+    if (!playerId || !supabase) return;
+
+    const { data } = await supabase
+      .from('players')
+      .select('current_streak, longest_streak, daily_hand_completed_date')
+      .eq('id', playerId)
+      .maybeSingle();
+
+    if (!data) return;
+
+    set({
+      currentStreak: data.current_streak ?? 0,
+      longestStreak: data.longest_streak ?? 0,
+      dailyHandCompletedToday: data.daily_hand_completed_date === todayISO(),
+    });
+  },
+
+  setStreak: (next) => set(next),
 }));
