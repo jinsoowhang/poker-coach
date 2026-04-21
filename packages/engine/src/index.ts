@@ -18,3 +18,5 @@ export { estimatePreflopStrength, estimatePostflopStrength, makeDecision, create
 export { getActionDelay } from './ai/action-timing.js';
 export { calculatePotOdds, countOuts, totalUniqueOuts } from './odds-calculator.js';
 export type { PotOdds, OutInfo } from './odds-calculator.js';
+export { calculateSPR } from './spr-calculator.js';
+export type { SprAnalysis, SprTier } from './spr-calculator.js';
