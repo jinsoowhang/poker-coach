@@ -47,13 +47,13 @@ export function BettingControls({ awaitingInput: propAwaiting, validActions: pro
   }
 
   return (
-    <div className="flex flex-col gap-3 items-center py-3">
-      <div className="flex gap-3 items-center">
+    <div className="flex flex-col gap-3 items-center py-2 sm:py-3">
+      <div className="flex flex-wrap gap-2 sm:gap-3 items-center justify-center">
         {/* Fold */}
         {actions.fold && (
           <button
             onClick={() => submitAction({ type: 'fold', amount: 0 })}
-            className="px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)',
               color: '#fca5a5',
@@ -70,7 +70,7 @@ export function BettingControls({ awaitingInput: propAwaiting, validActions: pro
         {actions.check && (
           <button
             onClick={() => submitAction({ type: 'check', amount: 0 })}
-            className="px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%)',
               color: '#93c5fd',
@@ -87,7 +87,7 @@ export function BettingControls({ awaitingInput: propAwaiting, validActions: pro
         {actions.call && (
           <button
             onClick={() => submitAction({ type: 'call', amount: actions.call!.minAmount! })}
-            className="px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #065f46 0%, #047857 100%)',
               color: '#6ee7b7',
@@ -105,7 +105,7 @@ export function BettingControls({ awaitingInput: propAwaiting, validActions: pro
           <div className="flex items-center gap-2">
             <button
               onClick={() => submitAction({ type: 'raise', amount: raiseAmount })}
-              className="px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
+              className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
               style={{
                 background: 'linear-gradient(135deg, #92400e 0%, #b45309 100%)',
                 color: '#fde68a',
@@ -122,7 +122,7 @@ export function BettingControls({ awaitingInput: propAwaiting, validActions: pro
               max={actions.raise.maxAmount}
               value={raiseAmount}
               onChange={(e) => setRaiseAmount(Number(e.target.value))}
-              className="w-28 h-1.5 rounded-full appearance-none cursor-pointer"
+              className="w-20 sm:w-28 h-1.5 rounded-full appearance-none cursor-pointer"
               style={{
                 background: `linear-gradient(to right, #f59e0b ${
                   ((raiseAmount - actions.raise.minAmount!) / (actions.raise.maxAmount! - actions.raise.minAmount!)) * 100
@@ -136,7 +136,7 @@ export function BettingControls({ awaitingInput: propAwaiting, validActions: pro
         {actions.allIn && (
           <button
             onClick={() => submitAction({ type: 'all-in', amount: actions.allIn!.minAmount! })}
-            className="px-5 py-2.5 rounded-lg text-sm font-black uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-black uppercase tracking-wider transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%)',
               color: '#fff',

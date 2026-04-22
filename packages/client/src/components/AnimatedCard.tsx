@@ -61,7 +61,13 @@ export function AnimatedCard({
   }, [dealt, faceUp]);
 
   if (!card) {
-    return <div className={size === 'sm' ? 'w-10 h-14' : size === 'md' ? 'w-14 h-20' : 'w-20 h-28'} />;
+    const emptyClass =
+      size === 'sm'
+        ? 'w-8 h-11 sm:w-10 sm:h-14'
+        : size === 'md'
+          ? 'w-10 h-14 sm:w-14 sm:h-20'
+          : 'w-14 h-20 sm:w-20 sm:h-28';
+    return <div className={emptyClass} />;
   }
 
   return (

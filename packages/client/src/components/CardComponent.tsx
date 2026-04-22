@@ -21,22 +21,27 @@ interface CardComponentProps {
   className?: string;
 }
 
+// Card sizes scale down on mobile (< 640px) for the cramped PokerTable layout.
+// Mobile → desktop:
+//   sm: 32×44 → 40×56
+//   md: 40×56 → 56×80
+//   lg: 56×80 → 80×112
 const SIZES = {
-  sm: 'w-10 h-14 text-xs',
-  md: 'w-14 h-20 text-sm',
-  lg: 'w-20 h-28 text-lg',
+  sm: 'w-8 h-11 sm:w-10 sm:h-14 text-[10px] sm:text-xs',
+  md: 'w-10 h-14 sm:w-14 sm:h-20 text-xs sm:text-sm',
+  lg: 'w-14 h-20 sm:w-20 sm:h-28 text-sm sm:text-lg',
 };
 
 const RANK_SIZES = {
-  sm: 'text-sm',
-  md: 'text-lg',
-  lg: 'text-2xl',
+  sm: 'text-xs sm:text-sm',
+  md: 'text-base sm:text-lg',
+  lg: 'text-xl sm:text-2xl',
 };
 
 const CENTER_SUIT_SIZES = {
-  sm: 'text-lg',
-  md: 'text-2xl',
-  lg: 'text-4xl',
+  sm: 'text-base sm:text-lg',
+  md: 'text-xl sm:text-2xl',
+  lg: 'text-2xl sm:text-4xl',
 };
 
 export function CardComponent({ card, faceDown = false, size = 'md', className = '' }: CardComponentProps) {

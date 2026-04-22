@@ -23,71 +23,70 @@ interface PokerTableProps {
  * Seat positions around an oval table.
  * Index 0 = bottom center (human), then clockwise.
  */
+// Seat positions use responsive Tailwind classes: mobile offsets are tighter
+// (shorter table, smaller seat content) and desktop offsets (sm:*) restore the
+// original layout. Shoulder positions on 7/9-handed keep a negative top offset
+// because the oval felt curves down sharply at those x positions.
 const SEAT_POSITIONS: Record<number, string[]> = {
   2: [
-    'bottom-2 left-1/2 -translate-x-1/2',         // 0: bottom center
-    'top-2 left-1/2 -translate-x-1/2',             // 1: top center
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',                       // 0: bottom center
+    'top-1 sm:top-2 left-1/2 -translate-x-1/2',                             // 1: top center
   ],
   3: [
-    'bottom-2 left-1/2 -translate-x-1/2',
-    'top-6 left-8',
-    'top-6 right-8',
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',
+    'top-3 sm:top-6 left-4 sm:left-8',
+    'top-3 sm:top-6 right-4 sm:right-8',
   ],
   4: [
-    'bottom-2 left-1/2 -translate-x-1/2',
-    'top-1/2 -translate-y-1/2 left-4',
-    'top-2 left-1/2 -translate-x-1/2',
-    'top-1/2 -translate-y-1/2 right-4',
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',
+    'top-1/2 -translate-y-1/2 left-1 sm:left-4',
+    'top-1 sm:top-2 left-1/2 -translate-x-1/2',
+    'top-1/2 -translate-y-1/2 right-1 sm:right-4',
   ],
   5: [
-    'bottom-2 left-1/2 -translate-x-1/2',
-    'bottom-16 left-6',
-    'top-6 left-16',
-    'top-6 right-16',
-    'bottom-16 right-6',
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',
+    'bottom-10 sm:bottom-16 left-2 sm:left-6',
+    'top-3 sm:top-6 left-10 sm:left-16',
+    'top-3 sm:top-6 right-10 sm:right-16',
+    'bottom-10 sm:bottom-16 right-2 sm:right-6',
   ],
   6: [
-    'bottom-2 left-1/2 -translate-x-1/2',
-    'bottom-12 left-4',
-    'top-8 left-8',
-    'top-2 left-1/2 -translate-x-1/2',
-    'top-8 right-8',
-    'bottom-12 right-4',
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',
+    'bottom-8 sm:bottom-12 left-1 sm:left-4',
+    'top-5 sm:top-8 left-3 sm:left-8',
+    'top-1 sm:top-2 left-1/2 -translate-x-1/2',
+    'top-5 sm:top-8 right-3 sm:right-8',
+    'bottom-8 sm:bottom-12 right-1 sm:right-4',
   ],
-  // For 7+ handed layouts, "shoulder" positions (upper-left and upper-right of the
-  // oval, away from the exact top) must be lifted above the container (negative top)
-  // because the oval felt curves down sharply at those x positions — otherwise the
-  // seat content lands on the green felt instead of on the dark border. The center
-  // top-of-oval is the narrowest part vertically, so seats there can stay at top-2.
   7: [
-    'bottom-2 left-1/2 -translate-x-1/2',               // 0: bottom-center (hero)
-    'bottom-12 left-4',                                  // 1: bottom-left
-    'top-8 left-8',                                      // 2: top-left corner
-    '-top-10 left-[35%] -translate-x-1/2',               // 3: top shoulder left
-    '-top-10 right-[35%] translate-x-1/2',               // 4: top shoulder right
-    'top-8 right-8',                                     // 5: top-right corner
-    'bottom-12 right-4',                                 // 6: bottom-right
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',                       // 0: bottom-center (hero)
+    'bottom-8 sm:bottom-12 left-1 sm:left-4',                               // 1: bottom-left
+    'top-5 sm:top-8 left-3 sm:left-8',                                      // 2: top-left corner
+    '-top-7 sm:-top-10 left-[35%] -translate-x-1/2',                        // 3: top shoulder left
+    '-top-7 sm:-top-10 right-[35%] translate-x-1/2',                        // 4: top shoulder right
+    'top-5 sm:top-8 right-3 sm:right-8',                                    // 5: top-right corner
+    'bottom-8 sm:bottom-12 right-1 sm:right-4',                             // 6: bottom-right
   ],
   8: [
-    'bottom-2 left-1/2 -translate-x-1/2',               // 0: bottom-center (hero)
-    'bottom-10 left-4',                                  // 1: bottom-left
-    'top-1/2 -translate-y-1/2 left-2',                   // 2: middle-left
-    'top-8 left-8',                                      // 3: top-left corner
-    'top-2 left-1/2 -translate-x-1/2',                   // 4: top-center
-    'top-8 right-8',                                     // 5: top-right corner
-    'top-1/2 -translate-y-1/2 right-2',                  // 6: middle-right
-    'bottom-10 right-4',                                 // 7: bottom-right
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',                       // 0: bottom-center (hero)
+    'bottom-7 sm:bottom-10 left-1 sm:left-4',                               // 1: bottom-left
+    'top-1/2 -translate-y-1/2 left-0.5 sm:left-2',                          // 2: middle-left
+    'top-5 sm:top-8 left-3 sm:left-8',                                      // 3: top-left corner
+    'top-1 sm:top-2 left-1/2 -translate-x-1/2',                             // 4: top-center
+    'top-5 sm:top-8 right-3 sm:right-8',                                    // 5: top-right corner
+    'top-1/2 -translate-y-1/2 right-0.5 sm:right-2',                        // 6: middle-right
+    'bottom-7 sm:bottom-10 right-1 sm:right-4',                             // 7: bottom-right
   ],
   9: [
-    'bottom-2 left-1/2 -translate-x-1/2',               // 0: bottom-center (hero)
-    'bottom-10 left-4',                                  // 1: bottom-left
-    'top-1/2 -translate-y-1/2 left-2',                   // 2: middle-left
-    'top-8 left-8',                                      // 3: top-left corner
-    '-top-10 left-[35%] -translate-x-1/2',               // 4: top shoulder left
-    '-top-10 right-[35%] translate-x-1/2',               // 5: top shoulder right
-    'top-8 right-8',                                     // 6: top-right corner
-    'top-1/2 -translate-y-1/2 right-2',                  // 7: middle-right
-    'bottom-10 right-4',                                 // 8: bottom-right
+    'bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2',                       // 0: bottom-center (hero)
+    'bottom-7 sm:bottom-10 left-1 sm:left-4',                               // 1: bottom-left
+    'top-1/2 -translate-y-1/2 left-0.5 sm:left-2',                          // 2: middle-left
+    'top-5 sm:top-8 left-3 sm:left-8',                                      // 3: top-left corner
+    '-top-7 sm:-top-10 left-[35%] -translate-x-1/2',                        // 4: top shoulder left
+    '-top-7 sm:-top-10 right-[35%] translate-x-1/2',                        // 5: top shoulder right
+    'top-5 sm:top-8 right-3 sm:right-8',                                    // 6: top-right corner
+    'top-1/2 -translate-y-1/2 right-0.5 sm:right-2',                        // 7: middle-right
+    'bottom-7 sm:bottom-10 right-1 sm:right-4',                             // 8: bottom-right
   ],
 };
 
@@ -159,10 +158,10 @@ export function PokerTable({
   }
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto" style={{ aspectRatio: '16/10' }}>
+    <div className="relative w-full max-w-4xl mx-auto aspect-[4/3] sm:aspect-[16/10]">
       {/* Table surface */}
       <div
-        className="absolute inset-8 rounded-[50%] overflow-hidden"
+        className="absolute inset-4 sm:inset-8 rounded-[50%] overflow-hidden"
         style={{
           background: 'radial-gradient(ellipse at 40% 40%, #166534 0%, #14532d 40%, #052e16 100%)',
           border: '8px solid #5a3825',
@@ -182,17 +181,17 @@ export function PokerTable({
           }}
         />
 
-        {/* Deck position — top-right area */}
-        <div className="absolute top-6 right-12">
+        {/* Deck position — top-right area (hidden on mobile to save room) */}
+        <div className="absolute top-6 right-12 hidden sm:block">
           <DeckPosition />
         </div>
 
         {/* Center area: community cards + pot */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 sm:gap-3">
           {/* Pot */}
           {pot > 0 && (
             <div
-              className="px-4 py-1 rounded-full text-sm font-bold tabular-nums relative"
+              className="px-3 sm:px-4 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-bold tabular-nums relative"
               style={{
                 background: 'rgba(0,0,0,0.35)',
                 color: '#fbbf24',
@@ -223,7 +222,7 @@ export function PokerTable({
           )}
 
           {/* Community cards */}
-          <div className="flex gap-1.5">
+          <div className="flex gap-1 sm:gap-1.5">
             {communityCards.map((card, i) => (
               <AnimatedCard
                 key={`${card.rank}-${card.suit}`}
@@ -233,11 +232,11 @@ export function PokerTable({
                 size="md"
               />
             ))}
-            {/* Empty slots */}
+            {/* Empty slots — match AnimatedCard md size responsively */}
             {Array.from({ length: 5 - communityCards.length }).map((_, i) => (
               <div
                 key={`empty-${i}`}
-                className="w-14 h-20 rounded-lg"
+                className="w-10 h-14 sm:w-14 sm:h-20 rounded-lg"
                 style={{
                   background: 'rgba(0,0,0,0.15)',
                   border: '1px dashed rgba(255,255,255,0.1)',
