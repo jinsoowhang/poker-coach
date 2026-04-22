@@ -10,7 +10,7 @@ import type { ScenarioCategory } from '../data/scenarios';
 import { useTrainingStore } from '../stores/useTrainingStore';
 import { usePlayerStore } from '../stores/usePlayerStore';
 import { getDailyHandScenario } from '../lib/streak';
-import { fetchDueScenarioIds } from '../lib/stats';
+import { fetchDueScenarioIds, fetchCompletedScenarioIds } from '../lib/stats';
 
 const CATEGORIES: ScenarioCategory[] = ['preflop-opens', 'isolation', 'spr-commitment'];
 
@@ -30,6 +30,7 @@ export function TrainingPage() {
   const refreshStreak = usePlayerStore((s) => s.refreshStreak);
 
   const [dueCount, setDueCount] = useState<number | null>(null);
+  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
   const dailyScenario = getDailyHandScenario(SCENARIOS);
 
   useEffect(() => {
@@ -41,8 +42,14 @@ export function TrainingPage() {
     let cancelled = false;
     async function run() {
       if (!playerId) return;
-      const due = await fetchDueScenarioIds(playerId);
-      if (!cancelled) setDueCount(due.length);
+      const [due, completed] = await Promise.all([
+        fetchDueScenarioIds(playerId),
+        fetchCompletedScenarioIds(playerId),
+      ]);
+      if (!cancelled) {
+        setDueCount(due.length);
+        setCompletedIds(new Set(completed));
+      }
     }
     void run();
     return () => {
@@ -58,8 +65,12 @@ export function TrainingPage() {
 
   const startCategory = (category: ScenarioCategory) => {
     resetPosition();
-    const first = getScenariosByCategory(category)[0];
-    if (first) navigate(`/train/${first.id}`);
+    const scenarios = getScenariosByCategory(category);
+    // Resume at the first scenario the player hasn't completed yet.
+    // If all scenarios in the category are completed, fall back to the first
+    // (they can still cycle through for practice).
+    const next = scenarios.find((s) => !completedIds.has(s.id)) ?? scenarios[0];
+    if (next) navigate(`/train/${next.id}`);
   };
 
   return (
@@ -179,6 +190,7 @@ export function TrainingPage() {
             const stats = sessionStatsByCategory(category);
             const accuracyPct =
               stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : null;
+            const completedInCategory = scenarios.filter((s) => completedIds.has(s.id)).length;
             return (
               <button
                 key={category}
@@ -191,10 +203,18 @@ export function TrainingPage() {
                 }}
               >
                 <div
-                  className="text-xs uppercase tracking-widest text-amber-400 mb-2"
+                  className="flex items-center justify-between text-xs uppercase tracking-widest mb-2"
                   style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
-                  {scenarios.length} scenarios
+                  <span className="text-amber-400">{scenarios.length} scenarios</span>
+                  {completedInCategory > 0 && (
+                    <span
+                      className="text-emerald-400"
+                      style={{ fontFamily: "'DM Mono', monospace" }}
+                    >
+                      {completedInCategory}/{scenarios.length} done
+                    </span>
+                  )}
                 </div>
                 <h2
                   className="text-xl sm:text-2xl font-bold mb-3 text-gray-100"

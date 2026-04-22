@@ -132,6 +132,20 @@ export async function fetchDueScenarioIds(playerId: string): Promise<ScenarioSta
   return data ?? [];
 }
 
+/**
+ * Every scenario_id the player has a scenario_state row for — i.e. has
+ * answered at least once. Used to resume a category at the first scenario
+ * the player hasn't completed yet.
+ */
+export async function fetchCompletedScenarioIds(playerId: string): Promise<string[]> {
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('scenario_state')
+    .select('scenario_id')
+    .eq('player_id', playerId);
+  return (data ?? []).map((r) => r.scenario_id);
+}
+
 export async function fetchScenarioStats(playerId: string): Promise<ScenarioStats> {
   const empty: ScenarioStats = {
     total: 0,
