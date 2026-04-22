@@ -41,11 +41,14 @@ export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards
     <div className={`flex flex-col items-center gap-0.5 sm:gap-1 transition-all duration-300 ${
       player.folded ? 'opacity-40' : ''
     }`}>
-      {/* Cards */}
+      {/* Cards — `key` tied to card identity so each hole card remounts cleanly
+          when it changes (e.g. navigating between Training scenarios), avoiding
+          stale dealt/flipped state that can leave one card stuck face-down. */}
       <div className="flex gap-0.5 sm:gap-1">
         {player.holeCards ? (
           <>
             <AnimatedCard
+              key={`${player.holeCards[0].rank}-${player.holeCards[0].suit}-0`}
               card={player.holeCards[0]}
               faceUp={canSeeCards}
               winner={isWinner && !player.folded}
@@ -53,6 +56,7 @@ export function PlayerSeat({ player, isDealer, isCurrentTurn, isHuman, showCards
               size="sm"
             />
             <AnimatedCard
+              key={`${player.holeCards[1].rank}-${player.holeCards[1].suit}-1`}
               card={player.holeCards[1]}
               faceUp={canSeeCards}
               winner={isWinner && !player.folded}
