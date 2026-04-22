@@ -78,29 +78,29 @@ export function GamePage() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <div
-        className="flex items-center justify-between px-6 py-3"
+        className="flex items-center justify-between gap-2 px-3 sm:px-6 py-2 sm:py-3 flex-wrap"
         style={{
           background: 'rgba(0,0,0,0.3)',
           borderBottom: '1px solid rgba(255,255,255,0.05)',
         }}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <h1
-            className="text-xl font-bold"
+            className="text-base sm:text-xl font-bold whitespace-nowrap"
             style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#fbbf24' }}
           >
             Poker Coach
           </h1>
-          <span className="text-xs text-gray-500" style={{ fontFamily: "'DM Mono', monospace" }}>
+          <span className="text-[10px] sm:text-xs text-gray-500 whitespace-nowrap" style={{ fontFamily: "'DM Mono', monospace" }}>
             Hand #{handNumber}
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Toggle buttons */}
           <button
             onClick={toggleOverlay}
-            className="text-xs px-2.5 py-1 rounded transition-all cursor-pointer"
+            className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-1 rounded transition-all cursor-pointer whitespace-nowrap"
             style={{
               background: showOverlay ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.05)',
               color: showOverlay ? '#4ade80' : '#6b7280',
@@ -112,7 +112,7 @@ export function GamePage() {
           </button>
           <button
             onClick={togglePostHandModal}
-            className="text-xs px-2.5 py-1 rounded transition-all cursor-pointer"
+            className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-1 rounded transition-all cursor-pointer whitespace-nowrap"
             style={{
               background: showPostHandModal ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.05)',
               color: showPostHandModal ? '#60a5fa' : '#6b7280',
@@ -123,14 +123,14 @@ export function GamePage() {
             Review {showPostHandModal ? 'ON' : 'OFF'}
           </button>
 
-          <span className="text-sm tabular-nums" style={{ color: '#a7f3d0', fontFamily: "'DM Mono', monospace" }}>
-            Chips: ${humanPlayer?.chips.toLocaleString() ?? 0}
+          <span className="text-xs sm:text-sm tabular-nums whitespace-nowrap" style={{ color: '#a7f3d0', fontFamily: "'DM Mono', monospace" }}>
+            ${humanPlayer?.chips.toLocaleString() ?? 0}
           </span>
         </div>
       </div>
 
       {/* Table */}
-      <div className="flex-1 flex items-center justify-center px-4">
+      <div className="flex-1 flex items-center justify-center px-2 sm:px-4">
         <PokerTable
           players={players}
           communityCards={communityCards}
@@ -145,7 +145,7 @@ export function GamePage() {
       {/* Educational overlay panel */}
       {showOverlay && !isHandOver && humanPlayer?.holeCards && (
         <div
-          className="px-6 py-3 flex flex-col gap-2"
+          className="px-3 sm:px-6 py-2 sm:py-3 flex flex-col gap-2"
           style={{
             background: 'rgba(0,0,0,0.4)',
             borderTop: '1px solid rgba(255,255,255,0.05)',
@@ -167,7 +167,7 @@ export function GamePage() {
 
       {/* Controls */}
       <div
-        className="px-6 py-2"
+        className="px-3 sm:px-6 py-2"
         style={{
           background: 'rgba(0,0,0,0.3)',
           borderTop: '1px solid rgba(255,255,255,0.05)',

@@ -61,7 +61,7 @@ export function WaitingRoomPage() {
         </p>
         <button
           onClick={handleCopyCode}
-          className="text-5xl font-black tracking-[0.3em] px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+          className="text-4xl sm:text-5xl font-black tracking-[0.2em] sm:tracking-[0.3em] px-4 sm:px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
           style={{
             fontFamily: "'DM Mono', monospace",
             color: '#fbbf24',

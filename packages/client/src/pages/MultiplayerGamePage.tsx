@@ -76,39 +76,39 @@ export function MultiplayerGamePage() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <div
-        className="flex items-center justify-between px-6 py-3"
+        className="flex items-center justify-between gap-2 px-3 sm:px-6 py-2 sm:py-3 flex-wrap"
         style={{
           background: 'rgba(0,0,0,0.3)',
           borderBottom: '1px solid rgba(255,255,255,0.05)',
         }}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap min-w-0">
           <h1
-            className="text-xl font-bold"
+            className="text-base sm:text-xl font-bold whitespace-nowrap"
             style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#fbbf24' }}
           >
             Poker Coach
           </h1>
-          <span className="text-xs px-2 py-0.5 rounded" style={{
+          <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded whitespace-nowrap" style={{
             color: '#93c5fd',
             background: 'rgba(59,130,246,0.1)',
             border: '1px solid rgba(59,130,246,0.2)',
             fontFamily: "'DM Mono', monospace",
           }}>
-            Room: {roomCode}
+            {roomCode}
           </span>
-          <span className="text-xs text-gray-500" style={{ fontFamily: "'DM Mono', monospace" }}>
-            Hand #{handNumber}
+          <span className="text-[10px] sm:text-xs text-gray-500 whitespace-nowrap" style={{ fontFamily: "'DM Mono', monospace" }}>
+            #{handNumber}
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
-          <span className="text-sm tabular-nums" style={{ color: '#a7f3d0', fontFamily: "'DM Mono', monospace" }}>
-            Chips: ${localPlayer?.chips.toLocaleString() ?? 0}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <span className="text-xs sm:text-sm tabular-nums whitespace-nowrap" style={{ color: '#a7f3d0', fontFamily: "'DM Mono', monospace" }}>
+            ${localPlayer?.chips.toLocaleString() ?? 0}
           </span>
           <button
             onClick={handleLeaveGame}
-            className="text-xs px-2.5 py-1 rounded transition-all cursor-pointer"
+            className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-1 rounded transition-all cursor-pointer"
             style={{
               background: 'rgba(239,68,68,0.1)',
               color: '#f87171',
@@ -123,7 +123,7 @@ export function MultiplayerGamePage() {
 
       {/* Disconnect banners */}
       {disconnectedPlayers.size > 0 && (
-        <div className="px-6 py-2 text-center" style={{ background: 'rgba(245,158,11,0.1)', borderBottom: '1px solid rgba(245,158,11,0.2)' }}>
+        <div className="px-3 sm:px-6 py-2 text-center" style={{ background: 'rgba(245,158,11,0.1)', borderBottom: '1px solid rgba(245,158,11,0.2)' }}>
           <span className="text-xs text-amber-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             Disconnected: {Array.from(disconnectedPlayers).map(id => {
               const p = players.find(pl => pl.id === id);
@@ -134,7 +134,7 @@ export function MultiplayerGamePage() {
       )}
 
       {/* Table */}
-      <div className="flex-1 flex items-center justify-center px-4">
+      <div className="flex-1 flex items-center justify-center px-2 sm:px-4">
         <PokerTable
           players={players}
           communityCards={communityCards}
@@ -152,7 +152,7 @@ export function MultiplayerGamePage() {
 
       {/* Controls */}
       <div
-        className="px-6 py-2"
+        className="px-3 sm:px-6 py-2"
         style={{
           background: 'rgba(0,0,0,0.3)',
           borderTop: '1px solid rgba(255,255,255,0.05)',

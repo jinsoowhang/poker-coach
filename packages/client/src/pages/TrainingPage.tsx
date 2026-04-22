@@ -63,10 +63,10 @@ export function TrainingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 p-8">
+    <div className="min-h-screen bg-gray-950 text-gray-100 p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
         <h1
-          className="text-4xl font-bold mb-2"
+          className="text-3xl sm:text-4xl font-bold mb-2"
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%)',
@@ -76,17 +76,17 @@ export function TrainingPage() {
         >
           Training
         </h1>
-        <p className="text-gray-400 mb-10" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <p className="text-sm sm:text-base text-gray-400 mb-8 sm:mb-10" style={{ fontFamily: "'DM Sans', sans-serif" }}>
           Drill specific situations. Multiple-choice. Theory-backed explanations.
         </p>
 
         {/* Daily Hand + Review queue */}
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
+        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
           {/* Daily Hand */}
           <button
             onClick={() => navigate('/train/daily')}
             disabled={dailyDone}
-            className={`text-left p-6 rounded-2xl border transition-all duration-200 cursor-pointer ${
+            className={`text-left p-5 sm:p-6 rounded-2xl border transition-all duration-200 cursor-pointer ${
               dailyDone ? 'opacity-70 cursor-default' : 'hover:scale-[1.02] active:scale-[0.99]'
             }`}
             style={{
@@ -111,7 +111,7 @@ export function TrainingPage() {
               )}
             </div>
             <h2
-              className="text-2xl font-bold mb-2 text-gray-100"
+              className="text-xl sm:text-2xl font-bold mb-2 text-gray-100"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               {dailyDone ? 'See you tomorrow' : dailyScenario.title}
@@ -130,7 +130,7 @@ export function TrainingPage() {
           <button
             onClick={() => navigate('/train/review')}
             disabled={!dueCount}
-            className={`text-left p-6 rounded-2xl border transition-all duration-200 ${
+            className={`text-left p-5 sm:p-6 rounded-2xl border transition-all duration-200 ${
               !dueCount ? 'opacity-50 cursor-default' : 'cursor-pointer hover:scale-[1.02] active:scale-[0.99]'
             }`}
             style={{
@@ -146,7 +146,7 @@ export function TrainingPage() {
               ↻ Spaced Review
             </div>
             <h2
-              className="text-2xl font-bold mb-2 text-gray-100"
+              className="text-xl sm:text-2xl font-bold mb-2 text-gray-100"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               {dueCount === null
@@ -173,7 +173,7 @@ export function TrainingPage() {
         >
           Free Practice
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
           {CATEGORIES.map((category) => {
             const scenarios = getScenariosByCategory(category);
             const stats = sessionStatsByCategory(category);
@@ -183,7 +183,7 @@ export function TrainingPage() {
               <button
                 key={category}
                 onClick={() => startCategory(category)}
-                className="text-left p-6 rounded-2xl border transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
+                className="text-left p-5 sm:p-6 rounded-2xl border transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
                 style={{
                   background: 'linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(3, 7, 18, 0.9) 100%)',
                   borderColor: ACCENTS[category],
@@ -197,7 +197,7 @@ export function TrainingPage() {
                   {scenarios.length} scenarios
                 </div>
                 <h2
-                  className="text-2xl font-bold mb-3 text-gray-100"
+                  className="text-xl sm:text-2xl font-bold mb-3 text-gray-100"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   {CATEGORY_LABELS[category]}

@@ -99,11 +99,11 @@ export function ScenarioPage() {
   const { total, correct } = sessionAccuracy();
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 px-4 py-6">
+    <div className="min-h-screen bg-gray-950 text-gray-100 px-3 sm:px-4 py-4 sm:py-6">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="flex-1 min-w-0">
             <div
               className="text-xs uppercase tracking-widest text-amber-400"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
@@ -115,7 +115,7 @@ export function ScenarioPage() {
                 : `${CATEGORY_LABELS[scenario.category]} · ${indexInCategory + 1} / ${categoryScenarios.length}`}
             </div>
             <h1
-              className="text-2xl font-bold text-gray-100 mt-1"
+              className="text-xl sm:text-2xl font-bold text-gray-100 mt-1 break-words"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               {scenario.title}
@@ -123,7 +123,7 @@ export function ScenarioPage() {
           </div>
           {total > 0 && (
             <div
-              className="text-sm text-gray-400 text-right"
+              className="text-xs sm:text-sm text-gray-400 text-right whitespace-nowrap shrink-0 pt-1"
               style={{ fontFamily: "'DM Mono', monospace" }}
             >
               Session: {correct}/{total}
@@ -136,17 +136,17 @@ export function ScenarioPage() {
 
         {/* Narrative */}
         <div
-          className="mt-4 p-4 rounded-xl border border-gray-800"
+          className="mt-4 p-3 sm:p-4 rounded-xl border border-gray-800"
           style={{ background: 'rgba(17, 24, 39, 0.5)' }}
         >
           <p
-            className="text-gray-200 text-base leading-relaxed"
-            style={{ fontFamily: "'Crimson Text', Georgia, serif", fontSize: '1.1rem', lineHeight: 1.6 }}
+            className="text-gray-200 leading-relaxed text-[1rem] sm:text-[1.1rem]"
+            style={{ fontFamily: "'Crimson Text', Georgia, serif", lineHeight: 1.6 }}
           >
             {scenario.narrative}
           </p>
           <div
-            className="flex flex-wrap gap-x-5 gap-y-1 mt-3 text-xs text-gray-500"
+            className="flex flex-wrap gap-x-3 sm:gap-x-5 gap-y-1 mt-3 text-[11px] sm:text-xs text-gray-500"
             style={{ fontFamily: "'DM Mono', monospace" }}
           >
             <span>Stakes ${scenario.stakes.sb}/${scenario.stakes.bb}</span>

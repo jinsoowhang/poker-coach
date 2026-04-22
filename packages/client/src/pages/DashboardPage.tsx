@@ -27,7 +27,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 text-gray-100 p-8">
+      <div className="min-h-screen bg-gray-950 text-gray-100 p-4 sm:p-8">
         <div className="max-w-6xl mx-auto animate-pulse">
           <div className="h-10 w-48 bg-gray-800 rounded mb-8" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -55,10 +55,10 @@ export default function DashboardPage() {
 
   if (handsPlayed === 0 && recentHands.length === 0 && scenarioStats.total === 0) {
     return (
-      <div className="min-h-screen bg-gray-950 text-gray-100 p-8">
+      <div className="min-h-screen bg-gray-950 text-gray-100 p-4 sm:p-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-display text-amber-400 mb-8">Dashboard</h1>
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-12 text-center">
+          <h1 className="text-2xl sm:text-3xl font-display text-amber-400 mb-6 sm:mb-8">Dashboard</h1>
+          <div className="bg-gray-900 rounded-xl border border-gray-800 p-8 sm:p-12 text-center">
             <p className="text-gray-400 text-lg mb-2">No activity yet</p>
             <p className="text-gray-600 text-sm">
               Play some poker or drill training scenarios to see your stats here.
@@ -70,12 +70,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 p-8">
+    <div className="min-h-screen bg-gray-950 text-gray-100 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-display text-amber-400 mb-8">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-display text-amber-400 mb-6 sm:mb-8">Dashboard</h1>
 
         {/* Stat Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
           <StatCard label="Hands Played" value={handsPlayed} color="blue" />
           <StatCard
             label="Skill Score"
@@ -104,13 +104,13 @@ export default function DashboardPage() {
         />
 
         {/* Charts */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <ChipTrendChart data={chipHistory} />
           <SkillTrendChart data={skillHistory} />
         </div>
 
         {/* Radar + Coaching */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <SkillRadar
             vpip={vpip}
             aggression={aggression}
@@ -121,7 +121,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Training */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <ScenarioStatsCard stats={scenarioStats} />
           <CalibrationCard stats={scenarioStats} />
         </div>

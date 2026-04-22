@@ -60,20 +60,20 @@ export function ScenarioExplanation({ scenario, isCorrect, chosenIndex, confiden
 
   return (
     <div
-      className="mt-4 p-5 rounded-xl border"
+      className="mt-4 p-4 sm:p-5 rounded-xl border"
       style={{
         background: 'rgba(17, 24, 39, 0.7)',
         borderColor: isCorrect ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)',
       }}
     >
-      <div className="flex items-center gap-3 mb-3">
+      <div className="flex items-start sm:items-center gap-3 mb-3 flex-wrap sm:flex-nowrap">
         <span
           className="text-2xl font-bold"
           style={{ color: isCorrect ? '#34d399' : '#f87171' }}
         >
           {isCorrect ? '✓' : '✗'}
         </span>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div
             className="text-xs uppercase tracking-widest"
             style={{ color: isCorrect ? '#34d399' : '#f87171', fontFamily: "'DM Sans', sans-serif" }}
@@ -81,14 +81,14 @@ export function ScenarioExplanation({ scenario, isCorrect, chosenIndex, confiden
             {isCorrect ? 'Correct' : 'Not quite'}
           </div>
           <div
-            className="text-base font-bold"
+            className="text-sm sm:text-base font-bold break-words"
             style={{ color: '#fde68a', fontFamily: "'DM Sans', sans-serif" }}
           >
             Best play: {correctChoice.label}
           </div>
         </div>
         <div
-          className="text-right text-xs"
+          className="text-left sm:text-right text-[11px] sm:text-xs w-full sm:w-auto"
           style={{ fontFamily: "'DM Mono', monospace", color: '#9ca3af' }}
         >
           <div className="uppercase tracking-widest">Your confidence</div>

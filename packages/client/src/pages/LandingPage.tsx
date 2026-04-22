@@ -47,11 +47,11 @@ export function LandingPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-10 px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen gap-8 sm:gap-10 px-4 py-8">
       {/* Title */}
       <div className="text-center">
         <h1
-          className="text-6xl font-bold tracking-tight mb-3"
+          className="text-5xl sm:text-6xl font-bold tracking-tight mb-3"
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%)',
